@@ -24,6 +24,7 @@ public class PlayerAgent : Agent
             throw new UnityException("Agent requires a Rigidbody");
         }
 
+        this.Reset();
         Academy.Instance.OnEnvironmentReset += this.Reset;
     }
 
@@ -55,11 +56,6 @@ public class PlayerAgent : Agent
 
     // Nothing is being done before the episode begins.
     // public override void OnEpisodeBegin() {}
-
-    void OnCollisionEnter(Collision collision)
-    {
-        // TODO: Implement target hitting
-    }
 
     private void Reset()
     {
