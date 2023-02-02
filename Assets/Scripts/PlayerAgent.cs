@@ -14,6 +14,7 @@ public class PlayerAgent : Agent
     [SerializeField] private float movementSpeed;
 
     private new Rigidbody rigidbody;
+    private EnvironmentParameters environmentParameters;
 
     // Initialize the agent, happens only once.
     public override void Initialize()
@@ -23,6 +24,8 @@ public class PlayerAgent : Agent
         {
             throw new UnityException("Agent requires a Rigidbody");
         }
+
+        this.environmentParameters = Academy.Instance.EnvironmentParameters;
 
         this.Reset();
         Academy.Instance.OnEnvironmentReset += this.Reset;
@@ -44,11 +47,12 @@ public class PlayerAgent : Agent
         this.rigidbody.AddForce(movementDirection * this.movementSpeed);
     }
 
-    // Add the velocity as an observation in addition to
+    // Add the velocity and rotation as an observation in addition to
     // RayPerceptionSensorComponent3D
     public override void CollectObservations(VectorSensor sensor)
     {
         sensor.AddObservation(this.rigidbody.velocity);
+        sensor.AddObservation(this.transform.rotation.y);
     }
 
     // Shouldn't be needed since no manual control is assumed.
