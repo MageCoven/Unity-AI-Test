@@ -39,9 +39,12 @@ public class PlayerAgent : Agent
         this.rigidbody.AddForce(movementDirection * this.movementSpeed);
     }
 
-    // Not needed since no observations are made except for observations by the
-    // RayPerceptionSensorComponent3D component.
-    // public override void CollectObservations(VectorSensor sensor) {}
+    // Add the velocity as an observation in addition to
+    // RayPerceptionSensorComponent3D
+    public override void CollectObservations(VectorSensor sensor)
+    {
+        sensor.AddObservation(this.rigidbody.velocity);
+    }
 
     // Shouldn't be needed since no manual control is assumed.
     // public override void Heuristic(in ActionBuffers actions) {}
