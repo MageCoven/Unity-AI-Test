@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System;
 using UnityEngine;
 using Unity.MLAgents;
 using Unity.MLAgents.Sensors;
@@ -8,6 +9,7 @@ using Unity.MLAgents.Actuators;
 [RequireComponent(typeof(Rigidbody), typeof(RayPerceptionSensorComponent3D))]
 public class PlayerAgent : Agent
 {
+    [SerializeField] private Transform spawn;
     [SerializeField] private float rotationSpeed;
     [SerializeField] private float movementSpeed;
 
@@ -21,6 +23,8 @@ public class PlayerAgent : Agent
         {
             throw new UnityException("Agent requires a Rigidbody");
         }
+
+        Academy.Instance.OnEnvironmentReset += this.Reset;
     }
 
     // Recieve actions that the AI wants to perform and perform them.
@@ -57,4 +61,10 @@ public class PlayerAgent : Agent
         // TODO: Implement target hitting
     }
 
+    private void Reset()
+    {
+        this.transform.position = this.spawn.position;
+        this.transform.rotation = this.spawn.rotation;
+        this.rigidbody.velocity = Vector3.zero;
+    }
 }
